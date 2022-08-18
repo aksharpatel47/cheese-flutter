@@ -3,7 +3,7 @@ import 'package:flutter_app/presentation/login/login_screen.dart';
 import 'package:flutter_app/presentation/people/people_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:vrouter/vrouter.dart';
+import 'package:go_router/go_router.dart';
 import '../auth/auth_bloc.dart';
 
 class SplashPage extends StatelessWidget {
@@ -18,9 +18,9 @@ class SplashPage extends StatelessWidget {
           return BlocListener<AuthBloc, AuthState>(
             listener: (context, state) {
               if (state.isLoggedIn) {
-                context.vRouter.pushReplacement(PeopleScreen.path);
+                GoRouter.of(context).go(PeopleScreen.path);
               } else {
-                context.vRouter.pushReplacement(LoginScreen.path);
+                GoRouter.of(context).go(LoginScreen.path);
               }
             },
             child: SplashScreen(),

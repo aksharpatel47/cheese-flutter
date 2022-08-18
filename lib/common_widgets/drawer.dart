@@ -6,7 +6,7 @@ import 'package:flutter_app/presentation/settings/settings_screen.dart';
 import 'package:flutter_app/presentation/task/task_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:vrouter/vrouter.dart';
+import 'package:go_router/go_router.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -18,7 +18,7 @@ class AppDrawer extends StatelessWidget {
           return BlocListener<AuthBloc, AuthState>(
             listener: (context, state) {
               if (state.isLoggedIn == false) {
-                context.vRouter.pushReplacement(LoginScreen.path);
+                GoRouter.of(context).replace(LoginScreen.path);
               }
             },
             child: _getDrawerChild(context),
@@ -49,7 +49,7 @@ class AppDrawer extends StatelessWidget {
               title: Text("People"),
               dense: true,
               onTap: () {
-                context.vRouter.pushReplacement(PeopleScreen.path);
+                GoRouter.of(context).replace(PeopleScreen.path);
               },
               trailing: Icon(Icons.chevron_right),
             ),
@@ -59,7 +59,7 @@ class AppDrawer extends StatelessWidget {
               title: Text("Task"),
               dense: true,
               onTap: () {
-                context.vRouter.pushReplacement(TaskScreen.path);
+                GoRouter.of(context).replace(TaskScreen.path);
               },
               trailing: Icon(Icons.chevron_right),
             ),
@@ -69,7 +69,7 @@ class AppDrawer extends StatelessWidget {
               title: Text("Settings"),
               dense: true,
               onTap: () {
-                context.vRouter.pushReplacement(SettingsScreen.path);
+                GoRouter.of(context).replace(SettingsScreen.path);
               },
               trailing: Icon(Icons.chevron_right),
             ),

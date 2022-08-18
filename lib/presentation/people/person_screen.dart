@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/presentation/people/people_screen.dart';
 
 class PersonScreen extends StatelessWidget {
-  static String id = "person";
+  static String id = ":personId";
   static String path = "$PeopleScreen.path/$id";
 
   @override

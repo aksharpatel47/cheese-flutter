@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/presentation/people/people_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:vrouter/vrouter.dart';
+import 'package:go_router/go_router.dart';
 import '../auth/auth_bloc.dart';
 import 'widgets/login_scaffold.dart';
 
@@ -19,7 +19,7 @@ class LoginScreen extends StatelessWidget {
           return BlocListener<AuthBloc, AuthState>(
             listener: (context, state) {
               if (state.isLoggedIn == true) {
-                context.vRouter.pushReplacement(PeopleScreen.path);
+                GoRouter.of(context).go(PeopleScreen.path);
               }
             },
             child: const LoginScaffold(),

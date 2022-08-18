@@ -1,16 +1,16 @@
-import 'package:chopper/chopper.dart';
+import 'package:retrofit/retrofit.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_app/models/person.dart';
 
-part 'people_remote_repository.chopper.dart';
+part 'people_remote_repository.g.dart';
 
-@ChopperApi(baseUrl: "/people")
-abstract class PeopleRemoteRepository extends ChopperService {
-  static PeopleRemoteRepository create([ChopperClient? client]) =>
-      _$PeopleRemoteRepository(client);
+@RestApi()
+abstract class PeopleRemoteRepository {
+  factory PeopleRemoteRepository(Dio dio, {String baseUrl}) = _PeopleRemoteRepository;
 
-  @Get(path: "/{projectId}/")
-  Future<Response<List<Person>>> getProjectPeople(@Path() int projectId);
+  @GET('/people/{id}')
+  Future<Person> getPerson(@Path('id') int id);
 
-  @Get()
-  Future<Response<List<Person>>> getAssignedPeople();
+  @GET('/people')
+  Future<List<Person>> getPeople();
 }

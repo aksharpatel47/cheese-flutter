@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/presentation/people/person_screen.dart';
 import 'package:flutter_app/presentation/people/report_screen.dart';
 import 'package:flutter_app/presentation/people/search_screen.dart';
-import 'package:vrouter/vrouter.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../common_widgets/drawer.dart';
 
@@ -21,7 +21,7 @@ class PeopleScreen extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.search),
             onPressed: () {
-              context.vRouter.push(SearchScreen.id);
+              GoRouter.of(context).go(SearchScreen.path);
             },
           ),
         ],
@@ -32,12 +32,12 @@ class PeopleScreen extends StatelessWidget {
           ListTile(
             title: Text("Person 1"),
             onTap: () {
-              context.vRouter.push(PersonScreen.id);
+              GoRouter.of(context).go(PersonScreen.path.replaceFirst(":id", "1"));
             },
             trailing: IconButton(
               icon: Icon(Icons.add),
               onPressed: () {
-                context.vRouter.push(ReportScreen.id);
+                GoRouter.of(context).go(ReportScreen.path);
               },
             ),
           ),

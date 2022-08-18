@@ -4,6 +4,7 @@ import 'package:flutter_app/models/login_form_data.dart';
 import 'package:flutter_app/presentation/auth/auth_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 
 class LoginForm extends StatefulWidget {
   LoginForm({Key? key}) : super(key: key);
@@ -57,7 +58,7 @@ class _LoginFormState extends State<LoginForm> {
           name: 'username',
           decoration: InputDecoration(labelText: 'Email or Phone number'),
           validator: FormBuilderValidators.compose(
-              [FormBuilderValidators.required(context)]),
+              [FormBuilderValidators.required()]),
         ),
         FormBuilderTextField(
           key: Key('password'),
@@ -65,7 +66,7 @@ class _LoginFormState extends State<LoginForm> {
           decoration: InputDecoration(labelText: 'Password'),
           obscureText: true,
           validator: FormBuilderValidators.compose(
-              [FormBuilderValidators.required(context)]),
+              [FormBuilderValidators.required()]),
         ),
       ],
     );

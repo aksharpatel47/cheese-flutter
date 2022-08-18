@@ -7,7 +7,7 @@ import 'package:flutter_app/presentation/people/search_screen.dart';
 import 'package:flutter_app/presentation/settings/settings_screen.dart';
 import 'package:flutter_app/presentation/splash/splash_screen.dart';
 import 'package:flutter_app/presentation/task/task_screen.dart';
-import 'package:vrouter/vrouter.dart';
+import 'package:go_router/go_router.dart';
 
 import 'configure.dart';
 
@@ -20,45 +20,50 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: VRouter(
-        routes: [
-          VWidget(
-            path: SplashPage.path,
-            widget: SplashPage(),
-          ),
-          VWidget(
-            path: LoginScreen.path,
-            widget: LoginScreen(),
-          ),
-          VWidget(
-            path: PeopleScreen.path,
-            widget: PeopleScreen(),
-            stackedRoutes: [
-              VWidget(
-                path: PersonScreen.id,
-                widget: PersonScreen(),
-              ),
-              VWidget(
-                path: ReportScreen.id,
-                widget: ReportScreen(),
-              ),
-              VWidget(
-                path: SearchScreen.id,
-                widget: SearchScreen(),
-              ),
-            ],
-          ),
-          VWidget(
-            path: SettingsScreen.path,
-            widget: SettingsScreen(),
-          ),
-          VWidget(
-            path: TaskScreen.path,
-            widget: TaskScreen(),
-          ),
-        ],
-      ),
+    var router = GoRouter(
+      routes: <GoRoute>[
+        GoRoute(
+          path: SplashPage.path,
+          builder: (context, state) => SplashScreen(),
+        ),
+        GoRoute(
+          path: LoginScreen.path,
+          builder: (context, state) => LoginScreen(),
+        ),
+        GoRoute(
+          path: PeopleScreen.path,
+          builder: (context, state) => PeopleScreen(),
+          routes: <GoRoute>[
+            GoRoute(
+              path: PersonScreen.id,
+              builder: (context, state) => PersonScreen(),
+            ),
+            GoRoute(
+              path: ReportScreen.id,
+              builder: (context, state) => ReportScreen(),
+            ),
+            GoRoute(
+              path: SearchScreen.id,
+              builder: (context, state) => SearchScreen(),
+            ),
+          ],
+        ),
+        GoRoute(
+          path: TaskScreen.path,
+          builder: (context, state) => TaskScreen(),
+        ),
+        GoRoute(
+          path: SettingsScreen.path,
+          builder: (context, state) => SettingsScreen(),
+        ),
+      ],
+    );
+
+    return MaterialApp.router(
+      routeInformationParser: router.routeInformationParser,
+      routerDelegate: router.routerDelegate,
+      routeInformationProvider: router.routeInformationProvider,
+      title: "Flutter Demo",
     );
   }
 }

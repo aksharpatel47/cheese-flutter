@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/presentation/people/people_screen.dart';
-import 'package:vrouter/vrouter.dart';
+import 'package:go_router/go_router.dart';
 
 class ReportScreen extends StatelessWidget {
   static String id = "report";
@@ -17,7 +17,7 @@ class ReportScreen extends StatelessWidget {
             child: OutlinedButton(
               child: Text("Close"),
               onPressed: () {
-                context.vRouter.pop();
+                GoRouter.of(context).pop();
               },
             )
           ),
