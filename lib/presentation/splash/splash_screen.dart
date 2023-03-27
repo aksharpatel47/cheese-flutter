@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/presentation/login/login_screen.dart';
 import 'package:flutter_app/presentation/people/people_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+
 import '../auth/auth_bloc.dart';
 
 class SplashPage extends StatelessWidget {
@@ -11,22 +11,15 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => GetIt.I<AuthBloc>(),
-      child: Builder(
-        builder: (context) {
-          return BlocListener<AuthBloc, AuthState>(
-            listener: (context, state) {
-              if (state.isLoggedIn) {
-                GoRouter.of(context).go(PeopleScreen.path);
-              } else {
-                GoRouter.of(context).go(LoginScreen.path);
-              }
-            },
-            child: SplashScreen(),
-          );
-        },
-      ),
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state.isLoggedIn) {
+          GoRouter.of(context).go(PeopleScreen.path);
+        } else {
+          GoRouter.of(context).go(LoginScreen.path);
+        }
+      },
+      child: SplashScreen(),
     );
   }
 }

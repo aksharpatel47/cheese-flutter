@@ -12,11 +12,11 @@ class SplashBloc extends Bloc<AuthEvent, AuthState> {
   SplashBloc(
     this._authService,
   ) : super(AuthState(_authService.isLoggedIn)) {
+    on<AuthEvent>(
+      (event, emit) {
+        emit(state.copyWith(isLoggedIn: _authService.isLoggedIn));
+      },
+    );
     add(AuthEvent.load());
-  }
-
-  @override
-  Stream<AuthState> mapEventToState(AuthEvent event) async* {
-    yield state.copyWith(isLoggedIn: _authService.isLoggedIn);
   }
 }

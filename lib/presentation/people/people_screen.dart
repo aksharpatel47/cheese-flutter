@@ -32,7 +32,7 @@ class PeopleScreen extends StatelessWidget {
           ListTile(
             title: Text("Person 1"),
             onTap: () {
-              GoRouter.of(context).go(PersonScreen.path.replaceFirst(":id", "1"));
+              GoRouter.of(context).go(PersonScreen.path.replaceFirst(":personId", "1"));
             },
             trailing: IconButton(
               icon: Icon(Icons.add),

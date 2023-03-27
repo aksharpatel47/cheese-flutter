@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 class ReportScreen extends StatelessWidget {
   static String id = "report";
-  static String path = "$PeopleScreen.path/$id";
+  static String path = "${PeopleScreen.path}/$id";
 
   @override
   Widget build(BuildContext context) {
@@ -14,13 +14,12 @@ class ReportScreen extends StatelessWidget {
         body: Container(
           color: Colors.white,
           child: Center(
-            child: OutlinedButton(
-              child: Text("Close"),
-              onPressed: () {
-                GoRouter.of(context).pop();
-              },
-            )
-          ),
+              child: OutlinedButton(
+            child: Text("Close"),
+            onPressed: () {
+              GoRouter.of(context).pop();
+            },
+          )),
         ),
       ),
     );

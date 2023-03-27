@@ -51,3 +51,5 @@ app.*.map.json
 *.mocks.dart
 *.config.dart
 *.chopper.dart
+/ios/Podfile.lock
+/pubspec.lock

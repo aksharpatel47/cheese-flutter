@@ -5,26 +5,18 @@ import 'package:flutter_app/presentation/people/people_screen.dart';
 import 'package:flutter_app/presentation/settings/settings_screen.dart';
 import 'package:flutter_app/presentation/task/task_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => GetIt.I<AuthBloc>(),
-      child: Builder(
-        builder: (context) {
-          return BlocListener<AuthBloc, AuthState>(
-            listener: (context, state) {
-              if (state.isLoggedIn == false) {
-                GoRouter.of(context).replace(LoginScreen.path);
-              }
-            },
-            child: _getDrawerChild(context),
-          );
-        },
-      ),
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state.isLoggedIn == false) {
+          GoRouter.of(context).go(LoginScreen.path);
+        }
+      },
+      child: _getDrawerChild(context),
     );
   }
 
@@ -49,7 +41,7 @@ class AppDrawer extends StatelessWidget {
               title: Text("People"),
               dense: true,
               onTap: () {
-                GoRouter.of(context).replace(PeopleScreen.path);
+                GoRouter.of(context).go(PeopleScreen.path);
               },
               trailing: Icon(Icons.chevron_right),
             ),
@@ -59,7 +51,7 @@ class AppDrawer extends StatelessWidget {
               title: Text("Task"),
               dense: true,
               onTap: () {
-                GoRouter.of(context).replace(TaskScreen.path);
+                GoRouter.of(context).go(TaskScreen.path);
               },
               trailing: Icon(Icons.chevron_right),
             ),
@@ -69,7 +61,7 @@ class AppDrawer extends StatelessWidget {
               title: Text("Settings"),
               dense: true,
               onTap: () {
-                GoRouter.of(context).replace(SettingsScreen.path);
+                GoRouter.of(context).go(SettingsScreen.path);
               },
               trailing: Icon(Icons.chevron_right),
             ),

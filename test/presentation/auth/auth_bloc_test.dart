@@ -34,8 +34,7 @@ void main() {
         responses = [false, false, true];
         return AuthBloc(authService);
       },
-      act: (AuthBloc bloc) =>
-          bloc..add(AuthEvent.logIn(loginFormData)),
+      act: (AuthBloc bloc) => bloc..add(AuthEvent.logIn(loginFormData)),
       expect: () => [AuthState(false), AuthState(true)],
     );
 

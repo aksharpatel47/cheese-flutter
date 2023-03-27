@@ -3,7 +3,7 @@ import 'package:flutter_app/presentation/people/people_screen.dart';
 
 class PersonScreen extends StatelessWidget {
   static String id = ":personId";
-  static String path = "$PeopleScreen.path/$id";
+  static String path = "${PeopleScreen.path}/$id";
 
   @override
   Widget build(BuildContext context) {

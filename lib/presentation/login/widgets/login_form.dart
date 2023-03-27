@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_app/models/login_form_data.dart';
 import 'package:flutter_app/presentation/auth/auth_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -57,16 +56,14 @@ class _LoginFormState extends State<LoginForm> {
           key: Key('username'),
           name: 'username',
           decoration: InputDecoration(labelText: 'Email or Phone number'),
-          validator: FormBuilderValidators.compose(
-              [FormBuilderValidators.required()]),
+          validator: FormBuilderValidators.compose([FormBuilderValidators.required()]),
         ),
         FormBuilderTextField(
           key: Key('password'),
           name: 'password',
           decoration: InputDecoration(labelText: 'Password'),
           obscureText: true,
-          validator: FormBuilderValidators.compose(
-              [FormBuilderValidators.required()]),
+          validator: FormBuilderValidators.compose([FormBuilderValidators.required()]),
         ),
       ],
     );
