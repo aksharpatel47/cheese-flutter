@@ -1,12 +1,12 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:flutter_app/utils/preferences.dart';
 import 'package:injectable/injectable.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 @module
 abstract class RegisterModule {
   @preResolve
-  Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
+  Future<Preferences> get pref => Preferences.getInstance();
 
   Connectivity get connection => Connectivity();
 
