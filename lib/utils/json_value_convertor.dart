@@ -2,6 +2,7 @@ import 'package:flutter_app/models/address.dart';
 import 'package:flutter_app/models/contact.dart';
 import 'package:flutter_app/models/email.dart';
 import 'package:flutter_app/models/person.dart';
+import 'package:flutter_app/models/remote_config_data.dart';
 import 'package:flutter_app/models/token.dart';
 
 class JsonTypeParser {
@@ -24,6 +25,7 @@ const Map<Type, JsonFactory> factories = {
   Email: Email.fromJson,
   Address: Address.fromJson,
   Token: Token.fromJson,
+  RemoteConfigData: RemoteConfigData.fromJson,
   Map: mapFunction,
 };
 

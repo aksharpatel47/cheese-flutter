@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_app/models/remote_config_data.dart';
 import 'package:flutter_app/models/token.dart';
 import 'package:flutter_app/utils/json_value_convertor.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -8,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Preferences {
   static const _userToken = 'sso_token';
+  static const _appConfigKey = 'app_config';
 
   final SharedPreferences _sharedPref;
   final FlutterSecureStorage _securedStorage;
@@ -25,6 +27,10 @@ class Preferences {
   Future<Token?> getToken() async => await _getSecuredValue<Token>(_userToken);
   Future<void> setToken(Token token) async => await _setSecuredValue<Token>(_userToken, token);
   Future<void> removeToken() async => await _removeSecuredValue(_userToken);
+
+  RemoteConfigData? getConfigs() => _getValue<RemoteConfigData>(_appConfigKey);
+  Future<void> setConfigs(RemoteConfigData configs) async => await _setValue<RemoteConfigData>(_appConfigKey, configs);
+  Future<void> removeConfigs() async => await _removeValue(_appConfigKey);
 
   ///clear all stored preference value
   ///

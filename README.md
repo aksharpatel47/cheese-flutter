@@ -3,6 +3,9 @@
 A new Flutter application.
 
 ## Getting Started
+```shell
+flutterfire configure --project flutter-demo-61588
+```
 
 ## Code Organization in Flutter Apps
 
@@ -363,7 +366,6 @@ class FrogPage extends StatelessWidget {
         body: Center(
           child: Frog(),
         ),
-      ),
       );
   }
 }

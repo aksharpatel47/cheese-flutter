@@ -34,15 +34,21 @@ class SplashScreen extends StatelessWidget {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Splash Screen",
-              key: Key("SplashText"),
-            ),
-          ],
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Splash Screen",
+                key: Key("SplashText"),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              CircularProgressIndicator(),
+            ],
+          ),
         ),
       ),
     );
