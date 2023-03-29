@@ -1,7 +1,9 @@
 import 'package:flutter_app/models/login_form_data.dart';
 import 'package:flutter_app/services/auth_service.dart';
+import 'package:flutter_app/utils/config_manager.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
 part 'auth_bloc.freezed.dart';
@@ -26,6 +28,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEvent>((event, emit) async {
       await event.when(
         load: () async {
+          await GetIt.I<ConfigManager>().init();
           emit(state.copyWith(isLoggedIn: _authService.isLoggedIn));
         },
         logIn: (LoginFormData loginFormData) {
