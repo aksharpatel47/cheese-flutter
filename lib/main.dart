@@ -10,8 +10,8 @@ import 'configure.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await configureDependencies();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await configureDependencies();
   runApp(MyApp());
 }
 

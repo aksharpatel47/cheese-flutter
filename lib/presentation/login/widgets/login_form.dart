@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/login_form_data.dart';
 import 'package:flutter_app/presentation/auth/auth_bloc.dart';
+import 'package:flutter_app/utils/enums.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -17,24 +18,50 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        FormBuilder(key: _formKey, child: _getFormBody(context)),
-        SizedBox(
-          height: 16,
-        ),
-        Row(
-          children: <Widget>[
-            Expanded(
-              child: ElevatedButton(
-                onPressed: _onLoginPressed,
-                child: Text("Login"),
-              ),
-            )
-          ],
-        )
-      ],
-    );
+    return BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+      bool isLoading = state.loadingStatus == LoadingStatus.InProgress;
+
+      return Column(
+        children: <Widget>[
+          FormBuilder(
+            enabled: !isLoading,
+            key: _formKey,
+            child: _getFormBody(context),
+          ),
+          SizedBox(
+            height: 16,
+          ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: _onLoginPressed,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Login"),
+                      if (isLoading) ...[
+                        SizedBox(
+                          width: 10,
+                        ),
+                        SizedBox(
+                          height: 15,
+                          width: 15,
+                          child: CircularProgressIndicator(
+                            color: Colors.white.withOpacity(0.7),
+                            strokeWidth: 2,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              )
+            ],
+          )
+        ],
+      );
+    });
   }
 
   void _onLoginPressed() {

@@ -1,14 +1,21 @@
+import 'package:async/async.dart';
+import 'package:flutter_app/api_clients/cheese_client.dart';
 import 'package:flutter_app/models/login_form_data.dart';
+import 'package:flutter_app/models/user.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class IAuthService {
   bool get isLoggedIn;
-  void login(LoginFormData loginFormData);
+  Future<Result<User>> login(LoginFormData loginFormData);
   void logOut();
 }
 
 @Singleton(as: IAuthService)
 class AuthService implements IAuthService {
+  CheeseClient _cheeseClient;
+
+  AuthService(this._cheeseClient);
+
   bool _isLoggedIn = false;
 
   @override
@@ -20,7 +27,11 @@ class AuthService implements IAuthService {
   }
 
   @override
-  void login(LoginFormData loginFormData) {
-    _isLoggedIn = true;
+  Future<Result<User>> login(LoginFormData loginFormData) async {
+    final resp = await _cheeseClient.login(loginFormData);
+
+    _isLoggedIn = resp.isValue;
+
+    return resp;
   }
 }

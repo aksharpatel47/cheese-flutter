@@ -39,6 +39,9 @@ class ConfigManager {
 
       _remoteConfigData = storedConfig ?? RemoteConfigData.empty();
     }
+
+    _remoteConfigController.sink.add(_remoteConfigData!);
+
     return fetched;
   }
 

@@ -17,7 +17,9 @@ class RemoteConfigData {
   final Version latestVersion;
   final String privacyUrl;
   final String termsUrl;
-  final String apiBaseUrl;
+  final String cheeseApiBaseUrl;
+  final String weatherApiBaseUrl;
+  final String weatherApiAccessKey;
 
   RemoteConfigData({
     required this.minimumVersion,
@@ -25,7 +27,9 @@ class RemoteConfigData {
     required this.storeUrl,
     required this.privacyUrl,
     required this.termsUrl,
-    required this.apiBaseUrl,
+    required this.cheeseApiBaseUrl,
+    required this.weatherApiBaseUrl,
+    required this.weatherApiAccessKey,
   });
 
   factory RemoteConfigData.fromRemoteConfig(Map<String, RemoteConfigValue> config) {
@@ -41,7 +45,11 @@ class RemoteConfigData {
 
     String termsUrl = config[ConfigKeys.termsUrl]?.asString() ?? "";
 
-    String apiBaseUrl = config[ConfigKeys.apiBaseUrl]?.asString() ?? "";
+    String cheeseApiBaseUrl = config[ConfigKeys.cheeseApiBaseUrl]?.asString() ?? "";
+
+    String weatherApiBaseUrl = config[ConfigKeys.weatherApiBaseUrl]?.asString() ?? "";
+
+    String weatherApiAccessKey = config[ConfigKeys.weatherApiAccessKey]?.asString() ?? "";
 
     return RemoteConfigData(
       minimumVersion: minimumVersion,
@@ -49,7 +57,9 @@ class RemoteConfigData {
       storeUrl: storeUrl,
       privacyUrl: privacyUrl,
       termsUrl: termsUrl,
-      apiBaseUrl: apiBaseUrl,
+      cheeseApiBaseUrl: cheeseApiBaseUrl,
+      weatherApiBaseUrl: weatherApiBaseUrl,
+      weatherApiAccessKey: weatherApiAccessKey,
     );
   }
 
@@ -59,13 +69,13 @@ class RemoteConfigData {
         storeUrl: "",
         privacyUrl: "",
         termsUrl: "",
-        apiBaseUrl: "",
+        cheeseApiBaseUrl: "",
+        weatherApiBaseUrl: "",
+        weatherApiAccessKey: "",
       );
 
   factory RemoteConfigData.fromJson(Map<String, dynamic> json) => _$RemoteConfigDataFromJson(json);
-
   Map<String, dynamic> toJson() => _$RemoteConfigDataToJson(this);
-  static const fromJsonFactory = _$RemoteConfigDataFromJson;
 }
 
 Version? convertVersion(String? version) {
@@ -93,5 +103,7 @@ class ConfigKeys {
   static final latestVersion = "latest_version";
   static final privacyUrl = "privacy_url";
   static final termsUrl = "terms_url";
-  static final apiBaseUrl = "api_base_url";
+  static final cheeseApiBaseUrl = "cheese_api_base_url";
+  static final weatherApiBaseUrl = "weather_api_base_url";
+  static final weatherApiAccessKey = "weather_api_access_key";
 }

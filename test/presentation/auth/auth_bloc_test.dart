@@ -2,6 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_app/models/login_form_data.dart';
 import 'package:flutter_app/presentation/auth/auth_bloc.dart';
 import 'package:flutter_app/services/auth_service.dart';
+import 'package:flutter_app/utils/enums.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -25,7 +26,7 @@ void main() {
         responses = [false, false];
         return AuthBloc(authService);
       },
-      expect: () => [AuthState(false)],
+      expect: () => [AuthState(LoadingStatus.Initialized, false, null)],
     );
 
     blocTest(
@@ -35,7 +36,7 @@ void main() {
         return AuthBloc(authService);
       },
       act: (AuthBloc bloc) => bloc..add(AuthEvent.logIn(loginFormData)),
-      expect: () => [AuthState(false), AuthState(true)],
+      expect: () => [AuthState(LoadingStatus.Error, false, any), AuthState(LoadingStatus.Done, true, null)],
     );
 
     blocTest(
@@ -47,7 +48,11 @@ void main() {
       act: (AuthBloc bloc) => bloc
         ..add(AuthEvent.logIn(loginFormData))
         ..add(AuthEvent.logOut()),
-      expect: () => [AuthState(false), AuthState(true), AuthState(false)],
+      expect: () => [
+        AuthState(LoadingStatus.Error, false, any),
+        AuthState(LoadingStatus.Done, true, null),
+        AuthState(LoadingStatus.Error, false, any),
+      ],
     );
   });
 }

@@ -1,4 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'login_form_data.g.dart';
 
@@ -9,8 +9,7 @@ class LoginFormData {
 
   LoginFormData(this.username, this.password);
 
-  factory LoginFormData.fromJson(Map<String, dynamic> json) =>
-      _$LoginFormDataFromJson(json);
+  factory LoginFormData.fromJson(Map<String, dynamic> json) => _$LoginFormDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$LoginFormDataToJson(this);
 }

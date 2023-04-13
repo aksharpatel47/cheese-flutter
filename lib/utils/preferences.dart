@@ -8,7 +8,8 @@ import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Preferences {
-  static const _userToken = 'sso_token';
+  static const _cheeseToken = 'cheese_token';
+  static const _weatherToken = 'weather_token';
   static const _appConfigKey = 'app_config';
 
   final SharedPreferences _sharedPref;
@@ -24,9 +25,13 @@ class Preferences {
     return Preferences._(sPref, storage);
   }
 
-  Future<Token?> getToken() async => await _getSecuredValue<Token>(_userToken);
-  Future<void> setToken(Token token) async => await _setSecuredValue<Token>(_userToken, token);
-  Future<void> removeToken() async => await _removeSecuredValue(_userToken);
+  Future<Token?> getCheeseToken() async => await _getSecuredValue<Token>(_cheeseToken);
+  Future<void> setCheeseToken(Token token) async => await _setSecuredValue<Token>(_cheeseToken, token);
+  Future<void> removeCheeseToken() async => await _removeSecuredValue(_cheeseToken);
+
+  Future<Token?> getWeatherToken() async => await _getSecuredValue<Token>(_weatherToken);
+  Future<void> setWeatherToken(Token token) async => await _setSecuredValue<Token>(_weatherToken, token);
+  Future<void> removeWeatherToken() async => await _removeSecuredValue(_weatherToken);
 
   RemoteConfigData? getConfigs() => _getValue<RemoteConfigData>(_appConfigKey);
   Future<void> setConfigs(RemoteConfigData configs) async => await _setValue<RemoteConfigData>(_appConfigKey, configs);

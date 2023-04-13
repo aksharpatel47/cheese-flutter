@@ -4,6 +4,8 @@ import 'package:flutter_app/models/email.dart';
 import 'package:flutter_app/models/person.dart';
 import 'package:flutter_app/models/remote_config_data.dart';
 import 'package:flutter_app/models/token.dart';
+import 'package:flutter_app/models/user.dart';
+import 'package:flutter_app/models/weather.dart';
 
 class JsonTypeParser {
   static T decode<T>(Map<String, dynamic> values) {
@@ -26,6 +28,11 @@ const Map<Type, JsonFactory> factories = {
   Address: Address.fromJson,
   Token: Token.fromJson,
   RemoteConfigData: RemoteConfigData.fromJson,
+  User: User.fromJson,
+  Weather: Weather.fromJson,
+  WeatherRequest: WeatherRequest.fromJson,
+  Location: Location.fromJson,
+  Current: Current.fromJson,
   Map: mapFunction,
 };
 
