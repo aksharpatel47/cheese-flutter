@@ -12,7 +12,7 @@ class AppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state.isLoggedIn == false) {
+        if (state.user == null) {
           GoRouter.of(context).go(LoginScreen.path);
         }
       },

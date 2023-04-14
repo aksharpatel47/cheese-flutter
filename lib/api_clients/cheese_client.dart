@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:async/async.dart';
 import 'package:chopper/chopper.dart';
+import 'package:flutter_app/models/cheese_error.dart';
 import 'package:flutter_app/models/failure.dart';
 import 'package:flutter_app/models/login_form_data.dart';
 import 'package:flutter_app/models/token.dart';
@@ -64,6 +65,7 @@ class CheeseClient {
         ],
         authenticator: _client.authenticator,
         converter: JsonValueConverter(),
+        errorConverter: CheeseErrorConverter(),
       ),
     );
   }
@@ -79,9 +81,43 @@ class JsonValueConverter extends JsonConverter {
   Future<Response<ResultType>> convertResponse<ResultType, Item>(Response response) async {
     var body = jsonDecode(response.body);
 
-    if (body is Iterable)
-      return response.copyWith(body: JsonTypeParser.decodeList<Item>(jsonDecode(response.body)) as ResultType);
-    return response.copyWith(body: JsonTypeParser.decode<ResultType>(jsonDecode(response.body)));
+    if (body is Iterable) {
+      var res = JsonTypeParser.decodeList<Item>(jsonDecode(response.body)).map((e) => e.asValue!.value).toList();
+
+      if (res is ResultType)
+        return response.copyWith(body: res as ResultType);
+      else
+        return response.copyWith(body: null, bodyError: DataFailure(ErrorMessages.dataFail));
+    }
+
+    var res = JsonTypeParser.decode<ResultType>(jsonDecode(response.body));
+
+    if (res.isValue)
+      return response.copyWith(body: res.asValue!.value);
+    else {
+      var error = res.asError!.error;
+
+      return response.copyWith(body: null, bodyError: error is Failure ? error : DataFailure(ErrorMessages.dataFail));
+    }
+  }
+}
+
+class CheeseErrorConverter extends ErrorConverter {
+  @override
+  FutureOr<Response> convertError<BodyType, InnerType>(Response response) {
+    if (response.body != null) {
+      var e = response.body is Map ? response.body : jsonDecode(response.body!.toString());
+      var res = JsonTypeParser.decode<CheeseError>(e);
+
+      if (res.isValue)
+        return response.copyWith(body: null, bodyError: res.asValue!.value);
+      else {
+        var error = res.asError!.error;
+
+        return response.copyWith(body: null, bodyError: error is Failure ? error : DataFailure(ErrorMessages.dataFail));
+      }
+    }
+    return response.copyWith(body: null, bodyError: ServerFailure(ErrorMessages.serverFail, false));
   }
 }
 
@@ -142,7 +178,7 @@ class CheeseResponseLogger extends ResponseInterceptor {
       Logger().d(jsonEncode(response.body), null, StackTrace.empty);
     if (LogConstants.responseData && response.error != null)
       Logger().e(
-        "${response.base.request?.method}] ${response.base.request?.url} \n ${response.error}",
+        "[${response.base.request?.method}] ${response.base.request?.url} \n ${jsonEncode(response.error)}",
         null,
         StackTrace.empty,
       );

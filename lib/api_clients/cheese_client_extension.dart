@@ -12,7 +12,9 @@ extension CheeseClientRepoFunctions on CheeseClient {
 
     if (resp.isSuccessful && resp.body != null)
       return Result.value(resp.body!);
-    else
-      return Result.error(ServerFailure(null, true));
+    else {
+      var error = resp.error;
+      return Result.error(ServerFailure(error is CheeseError ? error.message : null, true));
+    }
   }
 }

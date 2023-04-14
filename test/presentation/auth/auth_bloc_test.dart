@@ -26,7 +26,7 @@ void main() {
         responses = [false, false];
         return AuthBloc(authService);
       },
-      expect: () => [AuthState(LoadingStatus.Initialized, false, null)],
+      expect: () => [AuthState(LoadingStatus.Initialized, null, null)],
     );
 
     blocTest(
@@ -36,7 +36,7 @@ void main() {
         return AuthBloc(authService);
       },
       act: (AuthBloc bloc) => bloc..add(AuthEvent.logIn(loginFormData)),
-      expect: () => [AuthState(LoadingStatus.Error, false, any), AuthState(LoadingStatus.Done, true, null)],
+      expect: () => [AuthState(LoadingStatus.Error, null, any), AuthState(LoadingStatus.Done, any, null)],
     );
 
     blocTest(
@@ -49,9 +49,9 @@ void main() {
         ..add(AuthEvent.logIn(loginFormData))
         ..add(AuthEvent.logOut()),
       expect: () => [
-        AuthState(LoadingStatus.Error, false, any),
-        AuthState(LoadingStatus.Done, true, null),
-        AuthState(LoadingStatus.Error, false, any),
+        AuthState(LoadingStatus.Error, null, any),
+        AuthState(LoadingStatus.Done, any, null),
+        AuthState(LoadingStatus.Error, null, any),
       ],
     );
   });

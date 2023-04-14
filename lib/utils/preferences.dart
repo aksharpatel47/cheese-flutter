@@ -2,15 +2,16 @@ import 'dart:convert';
 
 import 'package:flutter_app/models/remote_config_data.dart';
 import 'package:flutter_app/models/token.dart';
+import 'package:flutter_app/models/user.dart';
 import 'package:flutter_app/utils/json_value_convertor.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Preferences {
   static const _cheeseToken = 'cheese_token';
   static const _weatherToken = 'weather_token';
   static const _appConfigKey = 'app_config';
+  static const _user = 'cheese_user';
 
   final SharedPreferences _sharedPref;
   final FlutterSecureStorage _securedStorage;
@@ -37,6 +38,10 @@ class Preferences {
   Future<void> setConfigs(RemoteConfigData configs) async => await _setValue<RemoteConfigData>(_appConfigKey, configs);
   Future<void> removeConfigs() async => await _removeValue(_appConfigKey);
 
+  User? getUser() => _getValue<User>(_user);
+  Future<void> setUser(User user) async => await _setValue<User>(_user, user);
+  Future<void> removeUser() async => await _removeValue(_user);
+
   ///clear all stored preference value
   ///
   ///avoid using this
@@ -48,12 +53,10 @@ class Preferences {
   T? _getValue<T>(dynamic key) {
     final fetchedValue = _sharedPref.getString(key);
     if (fetchedValue == null) return null;
-    try {
-      return JsonTypeParser.decode<T>(jsonDecode(fetchedValue));
-    } catch (e) {
-      Logger().e(e);
-      return null;
-    }
+    var res = JsonTypeParser.decode<T>(jsonDecode(fetchedValue));
+
+    if (res.isError) return null;
+    return res.asValue!.value;
   }
 
   Future<void> _setValue<T>(dynamic key, T value) async => await _sharedPref.setString(key, jsonEncode(value));
@@ -63,12 +66,10 @@ class Preferences {
   Future<T?> _getSecuredValue<T>(dynamic key) async {
     final fetchedValue = await _securedStorage.read(key: key);
     if (fetchedValue == null) return null;
-    try {
-      return JsonTypeParser.decode<T>(jsonDecode(fetchedValue));
-    } catch (e) {
-      Logger().e(e);
-      return null;
-    }
+    var res = JsonTypeParser.decode<T>(jsonDecode(fetchedValue));
+
+    if (res.isError) return null;
+    return res.asValue!.value;
   }
 
   Future<void> _setSecuredValue<T>(dynamic key, T value) async =>
