@@ -8,5 +8,5 @@ abstract class WeatherRemoteRepository extends ChopperService {
   static WeatherRemoteRepository create([ChopperClient? client]) => _$WeatherRemoteRepository(client);
 
   @Get(path: '/current')
-  Future<Response<Weather>> getWeather(@Query('query') String city);
+  Future<Response<WeatherResponse>> getWeather(@Query('query') String city, [@Query('access_key') String? accessKey]);
 }
