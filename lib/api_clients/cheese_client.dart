@@ -6,9 +6,11 @@ import 'package:chopper/chopper.dart';
 import 'package:flutter_app/models/cheese_error.dart';
 import 'package:flutter_app/models/failure.dart';
 import 'package:flutter_app/models/login_form_data.dart';
+import 'package:flutter_app/models/todo.dart';
 import 'package:flutter_app/models/token.dart';
 import 'package:flutter_app/models/user.dart';
 import 'package:flutter_app/repositories/auth_remote_repository.dart';
+import 'package:flutter_app/repositories/todo_remote_repository.dart';
 import 'package:flutter_app/repositories/token_remote_repository.dart';
 import 'package:flutter_app/utils/config_manager.dart';
 import 'package:flutter_app/utils/constants.dart';
@@ -62,6 +64,7 @@ class CheeseClient {
         services: [
           AuthRemoteRepository.create(),
           TokenRemoteRepository.create(),
+          TodoRemoteRepository.create(),
         ],
         authenticator: _client.authenticator,
         converter: JsonValueConverter(),
