@@ -4,6 +4,7 @@ import 'package:flutter_app/presentation/login/login_screen.dart';
 import 'package:flutter_app/presentation/people/people_screen.dart';
 import 'package:flutter_app/presentation/settings/settings_screen.dart';
 import 'package:flutter_app/presentation/task/task_screen.dart';
+import 'package:flutter_app/presentation/weather/weather_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -12,7 +13,7 @@ class AppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state.isLoggedIn == false) {
+        if (state.user == null) {
           GoRouter.of(context).go(LoginScreen.path);
         }
       },
@@ -52,6 +53,16 @@ class AppDrawer extends StatelessWidget {
               dense: true,
               onTap: () {
                 GoRouter.of(context).go(TaskScreen.path);
+              },
+              trailing: Icon(Icons.chevron_right),
+            ),
+            ListTile(
+              key: ValueKey("WeatherScreen"),
+              leading: Icon(Icons.cloudy_snowing),
+              title: Text("Weather"),
+              dense: true,
+              onTap: () {
+                GoRouter.of(context).go(WeatherScreen.path);
               },
               trailing: Icon(Icons.chevron_right),
             ),

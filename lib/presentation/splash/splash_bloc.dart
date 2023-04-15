@@ -1,4 +1,5 @@
 // ignore: import_of_legacy_library_into_null_safe
+import 'package:flutter_app/utils/enums.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
@@ -11,10 +12,10 @@ class SplashBloc extends Bloc<AuthEvent, AuthState> {
 
   SplashBloc(
     this._authService,
-  ) : super(AuthState(_authService.isLoggedIn)) {
+  ) : super(AuthState(LoadingStatus.Initialized, _authService.user, null)) {
     on<AuthEvent>(
       (event, emit) {
-        emit(state.copyWith(isLoggedIn: _authService.isLoggedIn));
+        emit(state.copyWith(user: _authService.user));
       },
     );
     add(AuthEvent.load());

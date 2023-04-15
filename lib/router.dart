@@ -6,6 +6,7 @@ import 'package:flutter_app/presentation/people/search_screen.dart';
 import 'package:flutter_app/presentation/settings/settings_screen.dart';
 import 'package:flutter_app/presentation/splash/splash_screen.dart';
 import 'package:flutter_app/presentation/task/task_screen.dart';
+import 'package:flutter_app/presentation/weather/weather_screen.dart';
 import 'package:go_router/go_router.dart';
 
 var router = GoRouter(
@@ -40,6 +41,10 @@ var router = GoRouter(
     GoRoute(
       path: TaskScreen.path,
       builder: (context, state) => TaskScreen(),
+    ),
+    GoRoute(
+      path: WeatherScreen.path,
+      builder: (context, state) => WeatherScreen(),
     ),
     GoRoute(
       path: SettingsScreen.path,
