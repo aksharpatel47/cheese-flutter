@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/common_widgets/drawer.dart';
+import 'package:flutter_app/presentation/common_widgets/drawer.dart';
 import 'package:flutter_app/presentation/weather/weather_bloc.dart';
 import 'package:flutter_app/utils/enums.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../common_widgets/drawer.dart';
+import '../common_widgets/drawer.dart';
 
 class TaskScreen extends StatelessWidget {
   static String id = "task";
@@ -18,7 +18,7 @@ class TaskScreen extends StatelessWidget {
       create: (context) => GetIt.I<TaskBloc>(),
       child: Builder(builder: (context) {
         var user = context.read<AuthBloc>().state.user;
-        if (user != null) context.read<TaskBloc>().add(TaskEvent.load(user.id));
+        if (user != null) context.read<TaskBloc>().add(TaskEvent.load(user.profile.personId));
 
         return Scaffold(
           appBar: AppBar(

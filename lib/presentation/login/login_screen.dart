@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/presentation/people/people_screen.dart';
+import 'package:flutter_app/presentation/home/home_screen.dart';
+import 'package:flutter_app/presentation/login/widgets/login_form.dart';
 import 'package:flutter_app/utils/enums.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../auth/auth_bloc.dart';
-import 'widgets/login_scaffold.dart';
 
 class LoginScreen extends StatelessWidget {
   static String id = "login";
@@ -18,10 +18,10 @@ class LoginScreen extends StatelessWidget {
         if (state.loadingStatus == LoadingStatus.Error && state.failure != null)
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.failure!.message)));
         if (state.user != null) {
-          GoRouter.of(context).go(PeopleScreen.path);
+          GoRouter.of(context).go(HomeScreen.path);
         }
       },
-      child: const LoginScaffold(),
+      child: const LoginForm(),
     );
   }
 }

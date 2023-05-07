@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:term_glyph/term_glyph.dart' as glyph;
+
 class ErrorMessages {
   static final networkFail = "You're offline. Please check your internet connection.";
   static final serverFail = "An unexpected server error occurred. Please try again later.";
@@ -11,6 +14,22 @@ class ErrorMessages {
   static final support =
       "Please contact your center’s IT-applications support karyakar for further help or report this error at $supportUrl";
   static final supportUrl = "https://baps.sl/helpdesk";
+}
+
+class ApiConstants {
+  static const pendingStatus = 'P';
+  static const approveStatus = 'P';
+  static const rejectedStatus = 'P';
+  static const primaryEmailTypeId = 'P';
+  static const primaryPhoneTypeId = 'C';
+}
+
+class AppColors {
+  static final backgroundColor = Color(0xffffffff);
+}
+
+class Constants {
+  static final bullet = glyph.glyphs.bullet;
 }
 
 class LogConstants {

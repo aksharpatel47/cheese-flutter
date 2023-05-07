@@ -7,6 +7,6 @@ part 'token_remote_repository.chopper.dart';
 abstract class TokenRemoteRepository extends ChopperService {
   static TokenRemoteRepository create([ChopperClient? client]) => _$TokenRemoteRepository(client);
 
-  @Get(path: '/refresh')
+  @Post(path: '/RefreshToken')
   Future<Response<Token>> refreshToken(@Body() Token token);
 }

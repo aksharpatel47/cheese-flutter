@@ -9,12 +9,12 @@ extension WeatherClientRepoFunctions on WeatherClient {
         return Result.value(
             Weather(request: resp.body!.request!, location: resp.body!.location!, current: resp.body!.current!));
       else if (resp.body!.error != null)
-        return Result.error(ServerFailure(resp.body!.error!.info, false));
+        return Result.error(ServerFailure(resp.body!.error!.info, null));
       else
         return Result.error(InternalFailure(ErrorMessages.dataFail));
     } else {
       var error = resp.error;
-      return Result.error(ServerFailure(error is WeatherError ? error.error.info : null, true));
+      return Result.error(ServerFailure(error is WeatherError ? error.error.info : null, null));
     }
   }
 }

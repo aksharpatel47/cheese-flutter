@@ -6,6 +6,7 @@ import 'package:flutter_app/models/email.dart';
 import 'package:flutter_app/models/failure.dart';
 import 'package:flutter_app/models/person.dart';
 import 'package:flutter_app/models/remote_config_data.dart';
+import 'package:flutter_app/models/standard_response.dart';
 import 'package:flutter_app/models/todo.dart';
 import 'package:flutter_app/models/token.dart';
 import 'package:flutter_app/models/user.dart';
@@ -15,7 +16,7 @@ class JsonTypeParser {
   static Result<T> decode<T>(Map<String, dynamic> values) {
     final jsonFactory = factories[T];
     if (jsonFactory == null || jsonFactory is! JsonFactory<T>) {
-      throw Result.error(InternalFailure(T.toString() + " fromJson() not found in json_value_convertor.dart"));
+      return Result.error(InternalFailure(T.toString() + " fromJson() not found in json_value_convertor.dart"));
     }
     try {
       return Result.value(jsonFactory(values));
@@ -49,6 +50,7 @@ const Map<Type, JsonFactory> factories = {
   WeatherError: WeatherError.fromJson,
   WeatherErrorDetail: WeatherErrorDetail.fromJson,
   WeatherResponse: WeatherResponse.fromJson,
+  StandardResponse: StandardResponse.fromJson,
   Map: mapFunction,
 };
 

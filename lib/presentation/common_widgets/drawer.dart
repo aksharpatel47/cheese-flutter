@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/presentation/auth/auth_bloc.dart';
-import 'package:flutter_app/presentation/login/login_screen.dart';
 import 'package:flutter_app/presentation/people/people_screen.dart';
 import 'package:flutter_app/presentation/settings/settings_screen.dart';
+import 'package:flutter_app/presentation/splash/splash_screen.dart';
 import 'package:flutter_app/presentation/task/task_screen.dart';
 import 'package:flutter_app/presentation/weather/weather_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +14,7 @@ class AppDrawer extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state.user == null) {
-          GoRouter.of(context).go(LoginScreen.path);
+          GoRouter.of(context).go(SplashPage.path);
         }
       },
       child: _getDrawerChild(context),

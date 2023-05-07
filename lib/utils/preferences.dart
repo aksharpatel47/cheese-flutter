@@ -1,13 +1,14 @@
 import 'dart:convert';
 
+import 'package:flutter_app/models/person.dart';
 import 'package:flutter_app/models/remote_config_data.dart';
 import 'package:flutter_app/models/token.dart';
-import 'package:flutter_app/models/user.dart';
 import 'package:flutter_app/utils/json_value_convertor.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Preferences {
+  static const _mysToken = 'mys_token';
   static const _cheeseToken = 'cheese_token';
   static const _weatherToken = 'weather_token';
   static const _appConfigKey = 'app_config';
@@ -26,6 +27,10 @@ class Preferences {
     return Preferences._(sPref, storage);
   }
 
+  Future<Token?> getMYSToken() async => await _getSecuredValue<Token>(_mysToken);
+  Future<void> setMYSToken(Token token) async => await _setSecuredValue<Token>(_mysToken, token);
+  Future<void> removeMYSToken() async => await _removeSecuredValue(_mysToken);
+
   Future<Token?> getCheeseToken() async => await _getSecuredValue<Token>(_cheeseToken);
   Future<void> setCheeseToken(Token token) async => await _setSecuredValue<Token>(_cheeseToken, token);
   Future<void> removeCheeseToken() async => await _removeSecuredValue(_cheeseToken);
@@ -38,8 +43,8 @@ class Preferences {
   Future<void> setConfigs(RemoteConfigData configs) async => await _setValue<RemoteConfigData>(_appConfigKey, configs);
   Future<void> removeConfigs() async => await _removeValue(_appConfigKey);
 
-  User? getUser() => _getValue<User>(_user);
-  Future<void> setUser(User user) async => await _setValue<User>(_user, user);
+  Person? getUser() => _getValue<Person>(_user);
+  Future<void> setUser(Person user) async => await _setValue<Person>(_user, user);
   Future<void> removeUser() async => await _removeValue(_user);
 
   ///clear all stored preference value

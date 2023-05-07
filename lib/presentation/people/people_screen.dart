@@ -4,7 +4,7 @@ import 'package:flutter_app/presentation/people/report_screen.dart';
 import 'package:flutter_app/presentation/people/search_screen.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../common_widgets/drawer.dart';
+import '../common_widgets/drawer.dart';
 
 class PeopleScreen extends StatelessWidget {
   static const String id = "people";

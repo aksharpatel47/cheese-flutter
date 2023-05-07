@@ -17,9 +17,14 @@ class RemoteConfigData {
   final Version latestVersion;
   final String privacyUrl;
   final String termsUrl;
+  final String signUpUrl;
+  final String mysApiBaseUrl;
   final String cheeseApiBaseUrl;
   final String weatherApiBaseUrl;
   final String weatherApiAccessKey;
+  final String ssoPostUrl;
+  final String ssoClientId;
+  final String ssoSecretKey;
 
   RemoteConfigData({
     required this.minimumVersion,
@@ -27,9 +32,14 @@ class RemoteConfigData {
     required this.storeUrl,
     required this.privacyUrl,
     required this.termsUrl,
+    required this.signUpUrl,
+    required this.mysApiBaseUrl,
     required this.cheeseApiBaseUrl,
     required this.weatherApiBaseUrl,
     required this.weatherApiAccessKey,
+    required this.ssoPostUrl,
+    required this.ssoClientId,
+    required this.ssoSecretKey,
   });
 
   factory RemoteConfigData.fromRemoteConfig(Map<String, RemoteConfigValue> config) {
@@ -45,11 +55,21 @@ class RemoteConfigData {
 
     String termsUrl = config[ConfigKeys.termsUrl]?.asString() ?? "";
 
+    String signUpUrl = config[ConfigKeys.signUpUrl]?.asString() ?? "";
+
+    String mysApiBaseUrl = config[ConfigKeys.mysApiBaseUrl]?.asString() ?? "";
+
     String cheeseApiBaseUrl = config[ConfigKeys.cheeseApiBaseUrl]?.asString() ?? "";
 
     String weatherApiBaseUrl = config[ConfigKeys.weatherApiBaseUrl]?.asString() ?? "";
 
     String weatherApiAccessKey = config[ConfigKeys.weatherApiAccessKey]?.asString() ?? "";
+
+    String ssoPostUrl = config[ConfigKeys.ssoPostUrl]?.asString() ?? "";
+
+    String ssoClientId = config[ConfigKeys.ssoClientId]?.asString() ?? "";
+
+    String ssoSecretKey = config[ConfigKeys.ssoSecretKey]?.asString() ?? "";
 
     return RemoteConfigData(
       minimumVersion: minimumVersion,
@@ -57,9 +77,14 @@ class RemoteConfigData {
       storeUrl: storeUrl,
       privacyUrl: privacyUrl,
       termsUrl: termsUrl,
+      signUpUrl: signUpUrl,
+      mysApiBaseUrl: mysApiBaseUrl,
       cheeseApiBaseUrl: cheeseApiBaseUrl,
       weatherApiBaseUrl: weatherApiBaseUrl,
       weatherApiAccessKey: weatherApiAccessKey,
+      ssoPostUrl: ssoPostUrl,
+      ssoClientId: ssoClientId,
+      ssoSecretKey: ssoSecretKey,
     );
   }
 
@@ -69,9 +94,14 @@ class RemoteConfigData {
         storeUrl: "",
         privacyUrl: "",
         termsUrl: "",
+        signUpUrl: "",
+        mysApiBaseUrl: "",
         cheeseApiBaseUrl: "",
         weatherApiBaseUrl: "",
         weatherApiAccessKey: "",
+        ssoPostUrl: "",
+        ssoClientId: "",
+        ssoSecretKey: "",
       );
 
   factory RemoteConfigData.fromJson(Map<String, dynamic> json) => _$RemoteConfigDataFromJson(json);
@@ -103,7 +133,12 @@ class ConfigKeys {
   static final latestVersion = "latest_version";
   static final privacyUrl = "privacy_url";
   static final termsUrl = "terms_url";
+  static final signUpUrl = "sign_up_url";
+  static final mysApiBaseUrl = "mys_api_base_url";
   static final cheeseApiBaseUrl = "cheese_api_base_url";
   static final weatherApiBaseUrl = "weather_api_base_url";
   static final weatherApiAccessKey = "weather_api_access_key";
+  static final ssoPostUrl = "sso_post_url";
+  static final ssoClientId = "sso_client_id";
+  static final ssoSecretKey = "sso_secret_key";
 }

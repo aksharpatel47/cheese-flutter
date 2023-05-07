@@ -1,3 +1,5 @@
+import 'package:flutter_app/presentation/common_widgets/mys_webpage.dart';
+import 'package:flutter_app/presentation/home/home_screen.dart';
 import 'package:flutter_app/presentation/login/login_screen.dart';
 import 'package:flutter_app/presentation/people/people_screen.dart';
 import 'package:flutter_app/presentation/people/person_screen.dart';
@@ -19,6 +21,31 @@ var router = GoRouter(
     GoRoute(
       path: LoginScreen.path,
       builder: (context, state) => LoginScreen(),
+    ),
+    GoRoute(
+      path: HomeScreen.path,
+      builder: (context, state) => HomeScreen(),
+      // pageBuilder: (context, state) => CustomTransitionPage<void>(
+      //   key: state.pageKey,
+      //   child: const HomeScreen(),
+      //   transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      //     return FadeTransition(opacity: animation, child: ScaleTransition(scale: animation, child: child));
+      //   },
+      // ),
+    ),
+    GoRoute(
+      path: MYSWebPage.path,
+      redirect: (context, state) {
+        return null;
+      },
+      builder: (context, state) {
+        var paramUrl = state.queryParams['url'];
+        var paramTitle = state.queryParams['title'];
+
+        var url = Uri.decodeFull(paramUrl!);
+
+        return MYSWebPage(url: url, title: paramTitle);
+      },
     ),
     GoRoute(
       path: PeopleScreen.path,

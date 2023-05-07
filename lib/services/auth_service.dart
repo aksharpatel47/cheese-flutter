@@ -1,64 +1,92 @@
 import 'package:async/async.dart';
-import 'package:flutter_app/api_clients/cheese_client.dart';
-import 'package:flutter_app/models/login_form_data.dart';
+import 'package:flutter_app/api_clients/myseva_client.dart';
+import 'package:flutter_app/models/failure.dart';
+import 'package:flutter_app/models/person.dart';
 import 'package:flutter_app/models/token.dart';
-import 'package:flutter_app/models/user.dart';
 import 'package:flutter_app/utils/preferences.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:logger/logger.dart';
 
 abstract class IAuthService {
   bool get isLoggedIn;
-  User? get user;
-  Future<Result<User>> login(LoginFormData loginFormData);
+  Person? get user;
+  Future<Result<Person>> login(Token token);
   Future<void> logOut();
-  Future<void> checkLogin();
+  Future<Result<void>> checkLogin();
 }
 
 @Singleton(as: IAuthService)
 class AuthService implements IAuthService {
-  CheeseClient _cheeseClient;
+  MYSClient _mysClient;
   Preferences _pref;
 
-  AuthService(this._cheeseClient, this._pref);
+  AuthService(this._mysClient, this._pref);
 
-  User? _user;
+  Person? _user;
 
   @override
   bool get isLoggedIn => _user != null;
 
   @override
-  User? get user => _user;
+  Person? get user => _user;
 
   @override
   Future<void> logOut() async {
-    await _pref.removeCheeseToken();
+    await _pref.removeMYSToken();
     await _pref.removeUser();
 
     _user = null;
   }
 
   @override
-  Future<Result<User>> login(LoginFormData loginFormData) async {
-    final resp = await _cheeseClient.login(loginFormData);
+  Future<Result<Person>> login(Token token) async {
+    var decodedToken = JwtDecoder.decode(token.token);
 
-    if (resp.isValue) {
-      _user = resp.asValue!.value;
+    await _pref.setMYSToken(token);
 
-      await _pref.setCheeseToken(Token(_user!.token, ""));
-      await _pref.setUser(_user!);
+    final personId = int.tryParse(decodedToken['pid'].toString());
+
+    if (personId is int) {
+      final resp = await _mysClient.getPeople([personId]);
+
+      if (resp.isValue && resp.asValue!.value.isNotEmpty) {
+        _user = resp.asValue!.value.first;
+
+        await _pref.setUser(_user!);
+
+        return Result.value(_user!);
+      } else if (resp.isValue) {
+        return Result.error(DataFailure());
+      } else {
+        return Result.error(resp.asError!.error);
+      }
+    } else {
+      return Result.error(InternalFailure("pid not found in token"));
     }
-
-    return resp;
   }
 
   @override
-  Future<void> checkLogin() async {
-    var token = await _pref.getCheeseToken();
+  Future<Result<void>> checkLogin() async {
+    var token = await _pref.getMYSToken();
     if (token != null) {
+      Logger().i("Stored Token\n${token.token}", null, StackTrace.empty);
+
       var user = _pref.getUser();
       if (user != null) {
         _user = user;
+        return Result.value(null);
+      } else {
+        var loginResp = await login(token);
+
+        if (loginResp.isValue) return Result.value(null);
+
+        await logOut();
+
+        return Result.error(loginResp.asError!.error);
       }
     }
+
+    return Result.error(NoTokenFailure());
   }
 }

@@ -20,14 +20,15 @@ class ConfigManager {
   ConfigManager(this._remoteConfig, this._pref);
 
   Future<bool> init() async {
-    bool fetched = false;
+    bool fetched = true;
     await _remoteConfig.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: Duration(seconds: 10),
       minimumFetchInterval: Duration(seconds: 1),
     ));
 
     try {
-      fetched = await _remoteConfig.fetchAndActivate();
+      await _remoteConfig.fetchAndActivate();
+
       final config = _remoteConfig.getAll();
 
       _remoteConfigData = RemoteConfigData.fromRemoteConfig(config);
@@ -37,7 +38,9 @@ class ConfigManager {
       Logger().e(e);
       var storedConfig = _pref.getConfigs();
 
-      _remoteConfigData = storedConfig ?? RemoteConfigData.empty();
+      if (storedConfig == null) fetched = false;
+
+      _remoteConfigData = storedConfig;
     }
 
     _remoteConfigController.sink.add(_remoteConfigData!);
