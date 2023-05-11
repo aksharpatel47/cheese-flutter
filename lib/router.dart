@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_app/presentation/common_widgets/mys_webpage.dart';
 import 'package:flutter_app/presentation/home/home_screen.dart';
 import 'package:flutter_app/presentation/login/login_screen.dart';
@@ -11,8 +12,11 @@ import 'package:flutter_app/presentation/task/task_screen.dart';
 import 'package:flutter_app/presentation/weather/weather_screen.dart';
 import 'package:go_router/go_router.dart';
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 var router = GoRouter(
   // debugLogDiagnostics: true,
+  navigatorKey: navigatorKey,
   routes: <GoRoute>[
     GoRoute(
       path: SplashPage.path,

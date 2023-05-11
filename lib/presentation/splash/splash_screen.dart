@@ -5,9 +5,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/presentation/common_widgets/mys_webpage.dart';
 import 'package:flutter_app/presentation/home/home_screen.dart';
-import 'package:flutter_app/presentation/login/login_screen.dart';
+// import 'package:flutter_app/router.dart';
 import 'package:flutter_app/utils/config_manager.dart';
 import 'package:flutter_app/utils/enums.dart';
+import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -41,6 +42,15 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const aadB2CClientID = "69b690f5-cd2d-477a-b42f-341b6190e258";
+    const aadB2CRedirectURL =
+        "https://bapsdev.b2clogin.com/bapsdev.onmicrosoft.com/B2C_1A_SIGNUP_SIGNIN/v2.0/.well-known/openid-configuration";
+    const aadB2CUserFlowName = "B2C_1A_SIGNUP_SIGNIN";
+    const aadB2CScopes = ['openid', 'offline_access', "69b690f5-cd2d-477a-b42f-341b6190e258"];
+    const aadB2CUserAuthFlow =
+        "https://bapsdev.b2clogin.com/bapsdev.onmicrosoft.com"; // https://login.microsoftonline.com/<azureTenantId>/oauth2/v2.0/token/
+    const aadB2TenantName = "bapsdev";
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -93,8 +103,48 @@ class SplashScreen extends StatelessWidget {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(100),
                           child: InkWell(
-                            onTap: () {
-                              GoRouter.of(context).push(LoginScreen.path);
+                            onTap: () async {
+                              FlutterAppAuth _appAuth = FlutterAppAuth();
+                              AuthorizationTokenResponse? result;
+                              try {
+                                result = await _appAuth.authorizeAndExchangeCode(
+                                  AuthorizationTokenRequest(
+                                      "69b690f5-cd2d-477a-b42f-341b6190e258", "org.baps.na.mysevaapp://auth/",
+                                      discoveryUrl:
+                                          "https://bapsdev.b2clogin.com/bapsdev.onmicrosoft.com/v2.0/.well-known/openid-configuration?p=B2C_1A_SIGNUP_SIGNIN",
+                                      scopes: [
+                                        'offline_access',
+                                        'openid',
+                                      ],
+                                      additionalParameters: {'p': 'B2C_1A_SIGNUP_SIGNIN'},
+                                      preferEphemeralSession: true),
+                                );
+
+                                print(result);
+                              } catch (e) {
+                                print(e.toString());
+                              }
+                              // GoRouter.of(context).push(LoginScreen.path);
+
+                              // c.Config config = new c.Config(
+                              //   tenant: "bapsdev.onmicrosoft.com",
+                              //   clientId: "69b690f5-cd2d-477a-b42f-341b6190e258",
+                              //   scope: "openid profile offline_access",
+                              //   // redirectUri is Optional as a default is calculated based on app type/web location
+                              //   // redirectUri:
+                              //   //     "https://bapsdev.b2clogin.com/bapsdev.onmicrosoft.com/B2C_1A_SIGNUP_SIGNIN/v2.0/.well-known/openid-configuration",
+                              //   navigatorKey: navigatorKey,
+                              //   webUseRedirect:
+                              //       true, // default is false - on web only, forces a redirect flow instead of popup auth
+                              //   //Optional parameter: Centered CircularProgressIndicator while rendering web page in WebView
+                              //   loader: Center(child: CupertinoActivityIndicator()),
+                              //   // postLogoutRedirectUri: 'http://your_base_url/logout', //optional
+                              // );
+                              //
+                              // final AadOAuth oauth = new AadOAuth(config);
+                              //
+                              // final res = await oauth.login();
+                              // print(res);
                             },
                             child: Container(
                               padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
