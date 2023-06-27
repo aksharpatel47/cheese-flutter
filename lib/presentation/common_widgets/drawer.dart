@@ -28,7 +28,7 @@ class AppDrawer extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
-              decoration: BoxDecoration(color: Theme.of(context).accentColor),
+              decoration: BoxDecoration(color: Theme.of(context).colorScheme.secondary),
               child: Text(
                 "Header",
                 style: Theme.of(context).textTheme.headline4?.copyWith(
