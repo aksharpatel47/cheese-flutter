@@ -39,8 +39,8 @@ var router = GoRouter(
         return null;
       },
       builder: (context, state) {
-        var paramUrl = state.queryParams['url'];
-        var paramTitle = state.queryParams['title'];
+        var paramUrl = state.queryParameters['url'];
+        var paramTitle = state.queryParameters['title'];
 
         var url = Uri.decodeFull(paramUrl!);
 
